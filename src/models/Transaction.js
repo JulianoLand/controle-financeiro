@@ -29,6 +29,10 @@ const Transaction = sequelize.define('Transaction', {
     type: DataTypes.DATE,
     allowNull: false,
     defaultValue: DataTypes.NOW
+  },
+  fixa: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
   }
 });
 

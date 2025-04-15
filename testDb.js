@@ -6,8 +6,8 @@ async function test() {
         await sequelize.sync();
         const newTransaction = await Transaction.create({
             type: 'despesa',
-            title: 'luz',
-            amount: 130.50,
+            title: 'compras',
+            amount: 350.56,
             description: 'Teste de despesa',
             date: new Date(),
             userId: 'id-do-usuario-teste'
