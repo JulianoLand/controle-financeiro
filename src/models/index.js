@@ -1,6 +1,7 @@
 const sequelize = require('../config/database');
 const User = require('./User');
 const Transaction = require('./Transaction');
+const SharedAccess = require('./SharedAccess');
 
 async function syncDatabase() {
   try {
@@ -13,4 +14,4 @@ async function syncDatabase() {
 
 syncDatabase();
 
-module.exports = { User, Transaction };
+module.exports = { User, Transaction, SharedAccess };

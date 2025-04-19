@@ -7,6 +7,7 @@ const app = express();
 
 const transactionRoutes = require('./routes/transactions');
 const authRoutes = require('./routes/auth');
+const shareRoutes = require('./routes/shareRoutes');
 
 // Middlewares
 app.use(cors());
@@ -15,6 +16,7 @@ app.use(express.json());
 // Rota básica de teste
 app.use('/auth', authRoutes);
 app.use('/transactions', transactionRoutes);
+app.use('/api/compatilhamento', shareRoutes);
 
 // Inicia o servidor
 const PORT = process.env.PORT || 3000;
