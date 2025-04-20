@@ -3,11 +3,11 @@ const sequelize = require('../config/database');
 
 const SharedAccess = sequelize.define('SharedAccess', {
     ownerId: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
         allowNull: false,
     },
     sharedWithId: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
         allowNull: false,
     },
     canEdit: {
