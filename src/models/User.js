@@ -1,7 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 const bcrypt = require('bcryptjs');
-const SharedAccess = require('./SharedAccess');
 
 const User = sequelize.define(
   'User',
@@ -38,16 +37,5 @@ const User = sequelize.define(
   }
 );
 
-// Um usuário pode compartilhar com vários outros
-User.hasMany(SharedAccess, {
-  foreignKey: 'ownerId',
-  as: 'compartilhados'
-});
-
-// Um usuário pode receber acesso de vários outros
-User.hasMany(SharedAccess, {
-  foreignKey: 'sharedWithId',
-  as: 'acessosRecebidos'
-});
 
 module.exports = User;

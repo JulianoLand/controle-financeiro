@@ -16,7 +16,8 @@ app.use(express.json());
 // Rota básica de teste
 app.use('/auth', authRoutes);
 app.use('/transactions', transactionRoutes);
-app.use('/api/compatilhamento', shareRoutes);
+app.use('/api/compartilhamento', shareRoutes);
+app.use('/api/auth/me', shareRoutes);
 
 // Inicia o servidor
 const PORT = process.env.PORT || 3000;

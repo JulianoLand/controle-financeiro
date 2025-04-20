@@ -1,9 +1,8 @@
-const User = require('../models');
-const SharedAccess = require('../models/SharedAccess');
+const { User, SharedAccess } = require('../models');
 
 async function compartilharAcesso(req, res) {
     const { email } = req.body;
-    const ownerId = req.userId;
+    const ownerId = req.user.id;
 
     try {
         // Verifica se o email pertece a um usuario existente
@@ -43,4 +42,27 @@ async function compartilharAcesso(req, res) {
     }
 }
 
-module.exports = { compartilharAcesso };
+async function listarCompartilhamentos(req, res) {
+    const ownerId = req.user.id;
+
+    try {
+        const compartilhamentos = await SharedAccess.findAll({
+            where: { ownerId },
+            include: {
+                model: User,
+                as: 'sharedWith', // esse alias precisa bater com o belongsTo()
+                attributes: ['id', 'name', 'email']
+            }
+        });
+
+        const lista = compartilhamentos.map(item => item.sharedWith);
+
+        res.status(200).json(lista);
+
+    } catch (e) {
+        console.error(e);
+        res.status(500).json({ message: 'Erro ao listar compartilhamentos' });
+    }
+}
+
+module.exports = { compartilharAcesso, listarCompartilhamentos };

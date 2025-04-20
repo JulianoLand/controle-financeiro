@@ -3,24 +3,25 @@ const router = express.Router();
 const authMiddleware = require('../middleware/authMiddleware');
 const { obterResumo, store, cloneFixMonth, show, update, del, relatorioAnual } = require('../controllers/transactionsController');
 
-// Criar uma nova rota transação
+// POST /api/transacoes
 router.post('/', authMiddleware, store);
 
-// Lista por mes e ano
+// GET /api/transacoes
 router.get('/', authMiddleware, cloneFixMonth);
 
-// Relatório anual de receitas e depesas por mes
+// GET /api/transacoes/relatorio/anual
 router.get('/relatorio/anual', authMiddleware,relatorioAnual);
 
+// GET /api/transacoes/resumo
 router.get('/resumo', authMiddleware, obterResumo);
 
-// Buscar uma transação por ID
+// GET /api/transacoes/:id
 router.get('/:id', authMiddleware, show);
 
-// Atualizar uma transação
+// PUT /api/transacoes/:id
 router.put('/:id', authMiddleware, update);
 
-// Deletar uma transação
+// DELETE /api/transacoes/:id
 router.delete('/:id', authMiddleware, del);
 
 module.exports = router;
