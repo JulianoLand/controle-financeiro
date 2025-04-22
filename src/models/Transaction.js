@@ -33,6 +33,14 @@ const Transaction = sequelize.define('Transaction', {
   fixa: {
     type: DataTypes.BOOLEAN,
     defaultValue: false
+  },
+  quitado: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
+  },
+  userId: {
+    type: DataTypes.STRING,
+    defaultValue: false
   }
 });
 

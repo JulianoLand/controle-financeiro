@@ -1,14 +1,15 @@
 const express = require('express');
+const router = express.Router();
 const authMiddleware = require('../middleware/authMiddleware');
+const authLimiter = require('../middleware/rateLimit');
+
 const { register, login, deleteUser, getProfile } = require('../controllers/authController');
 
-const router = express.Router();
-
 // POST /api/auth/register
-router.post('/register', register);
+router.post('/register', authLimiter, register);
 
 // POST /api/auth/login
-router.post('/login', login);
+router.post('/login', authLimiter, login);
 
 // DELETE /api/auth
 router.delete('/', authMiddleware, deleteUser);

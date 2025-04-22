@@ -3,8 +3,10 @@ const { Op, fn, col } = require('sequelize');
 
 const TransactionService = require('../services/TransactionService');
 
+const SharedAccess = require('../models/SharedAccess');
+
 async function obterResumo(req, res) {
-    const userId = req.user.id;
+    // const userId = req.user.id;
     const { ano, mes } = req.query;
 
     if (!ano || !mes) {
@@ -15,10 +17,19 @@ async function obterResumo(req, res) {
     const fimMes = new Date(inicioMes);
     fimMes.setMonth(fimMes.getMonth() + 1);
 
+    const compartilhadores = await SharedAccess.findAll({
+        where: { sharedWithId: req.user.id },
+        attributes: ['ownerId']
+    });
+    
+    const idsCompartilhados = compartilhadores.map(c => c.ownerId);
+
+    const todosOsIds = [req.user.id, ...idsCompartilhados];
+
     try {
         const transacoes = await Transaction.findAll({
             where: {
-                userId,
+                userId: { [Op.in]: todosOsIds },
                 date: {
                     [Op.gte]: inicioMes,
                     [Op.lt]: fimMes,
@@ -91,7 +102,7 @@ async function update (req, res) {
     console.log('Usuario autenticado: ', req.user);
 
     const { id } = req.params;
-    const { type, title, amount, description, date, fixa } = req.body;
+    const { type, title, amount, description, date, fixa, quitado } = req.body;
 
     try {
         const transaction = await Transaction.findOne({
@@ -109,6 +120,7 @@ async function update (req, res) {
         transaction.type = type ?? transaction.type;
         transaction.date = date ?? transaction.date;
         transaction.fixa = fixa ?? transaction.fixa;
+        transaction.quitado = quitado ?? transaction.quitado;
 
         await transaction.save();
 

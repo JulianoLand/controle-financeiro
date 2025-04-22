@@ -27,8 +27,7 @@ const User = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false
     }
-  },
-  {
+  }, {
     hooks: {
       beforeCreate: async (user) => {
         user.password = await bcrypt.hash(user.password, 8);

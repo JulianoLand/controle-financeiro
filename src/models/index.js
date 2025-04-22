@@ -25,15 +25,4 @@ SharedAccess.belongsTo(User, {
     as: 'sharedWith',
 });
 
-async function syncDatabase() {
-  try {
-    await sequelize.sync({ alter: true });
-    console.log('📦 Banco de dados sincronizado!');
-  } catch (e) {
-    console.error('Erro ao sicronizar com o banco de dados', e);
-  }
-}
-
-syncDatabase();
-
 module.exports = { User, sequelize, Transaction, SharedAccess };

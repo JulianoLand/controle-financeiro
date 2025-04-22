@@ -2,6 +2,12 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
 const SharedAccess = sequelize.define('SharedAccess', {
+    id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+        allowNull: false,
+    },
     ownerId: {
         type: DataTypes.UUID,
         allowNull: false,
@@ -15,7 +21,7 @@ const SharedAccess = sequelize.define('SharedAccess', {
         defaultValue: false,
     },
 }, {
-    tableName: 'shared_access',
+    tableName: 'SharedAccesses',
     timestamps: true,
 });
 

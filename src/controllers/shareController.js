@@ -43,8 +43,8 @@ async function compartilharAcesso(req, res) {
 }
 
 async function listarCompartilhamentos(req, res) {
-    const ownerId = req.user.id;
-
+    const ownerId = req.userId;
+// console.log('ID do usuario autenticado: ', req.userId);
     try {
         const compartilhamentos = await SharedAccess.findAll({
             where: { ownerId },
