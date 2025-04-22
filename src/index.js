@@ -15,7 +15,7 @@ app.use(express.json());
 
 // Rota básica de teste
 app.use('/api/auth', authRoutes);
-app.use('/transactions', transactionRoutes);
+app.use('/api/transactions', transactionRoutes);
 app.use('/api/compartilhamento', shareRoutes);
 
 // Inicia o servidor

@@ -201,4 +201,40 @@ async function relatorioAnual (req, res) {
     }
 };
 
-module.exports = { obterResumo, store, cloneFixMonth, show, update, del, relatorioAnual };
+async function index(req, res) {
+    try {
+        const { ano, mes } = req.query; // caso queira filtro opcional
+
+        const compartilhadores = await SharedAccess.findAll({
+            where: { sharedWithId: req.user.id },
+            attributes: ['ownerId']
+        });
+
+        const idsCompartilhados = compartilhadores.map(c => c.ownerId);
+        const todosOsIds = [req.user.id, ...idsCompartilhados];
+
+        const where = {
+            userId: { [Op.in]: todosOsIds },
+        };
+
+        if (ano && mes) {
+            const inicioMes = new Date(`${ano}-${mes}-01`);
+            const fimMes = new Date(inicioMes);
+            fimMes.setMonth(fimMes.getMonth() + 1);
+            where.date = { [Op.gte]: inicioMes, [Op.lt]: fimMes };
+        }
+
+        const transacoes = await Transaction.findAll({
+            where,
+            order: [['date', 'ASC']]
+        });
+
+        res.json(transacoes);
+    } catch (e) {
+        console.error('Erro ao listar transações: ', e);
+        res.status(500).json({ error: 'Erro ao listar transações' });
+    }
+};
+
+
+module.exports = { obterResumo, store, cloneFixMonth, show, update, del, relatorioAnual, index };

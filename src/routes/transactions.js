@@ -1,27 +1,31 @@
 const express = require('express');
 const router = express.Router();
 const authMiddleware = require('../middleware/authMiddleware');
-const { obterResumo, store, cloneFixMonth, show, update, del, relatorioAnual } = require('../controllers/transactionsController');
+const { obterResumo, store, cloneFixMonth, show, update, del, relatorioAnual, index } = require('../controllers/transactionsController');
+router.use(authMiddleware);
 
-// POST /api/transacoes
-router.post('/', authMiddleware, store);
-
-// GET /api/transacoes
-router.get('/', authMiddleware, cloneFixMonth);
-
-// GET /api/transacoes/relatorio/anual
-router.get('/relatorio/anual', authMiddleware,relatorioAnual);
+// GET /api/transacoes -> todas as transações (do usuário + compartilhadas)
+router.get('/', index);
 
 // GET /api/transacoes/resumo
-router.get('/resumo', authMiddleware, obterResumo);
+router.get('/resumo', obterResumo);
+
+// GET /api/transacoes/relatorio/anual
+router.get('/relatorio/anual', relatorioAnual);
+
+// GET /api/transacoes/fixas -> listagem de fixas de um mês
+router.get('/fixas', cloneFixMonth);
+
+// POST /api/transacoes
+router.post('/', store);
 
 // GET /api/transacoes/:id
-router.get('/:id', authMiddleware, show);
+router.get('/:id', show);
 
 // PUT /api/transacoes/:id
-router.put('/:id', authMiddleware, update);
+router.put('/:id', update);
 
 // DELETE /api/transacoes/:id
-router.delete('/:id', authMiddleware, del);
+router.delete('/:id', del);
 
 module.exports = router;
