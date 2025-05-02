@@ -5,13 +5,18 @@ require('./config/database'); // Importa a conexão com o banco
 
 const app = express();
 
+app.use(cors({
+  origin: 'http://localhost:5173',
+  // methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  // allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true // se for usar cookies/session no futuro
+}));
+// app.options('*', cors());
+app.use(express.json());
+
 const transactionRoutes = require('./routes/transactions');
 const authRoutes = require('./routes/auth');
 const shareRoutes = require('./routes/shareRoutes');
-
-// Middlewares
-app.use(cors());
-app.use(express.json());
 
 // Rota básica de teste
 app.use('/api/auth', authRoutes);

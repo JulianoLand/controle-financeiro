@@ -1,10 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const authMiddleware = require('../middleware/authMiddleware');
-const { obterResumo, store, cloneFixMonth, show, update, del, relatorioAnual, index } = require('../controllers/transactionsController');
+const { obterResumo,
+        store,
+        cloneFixMonth,
+        show,
+        update,
+        del,
+        relatorioAnual,
+        index } = require('../controllers/transactionsController');
 router.use(authMiddleware);
 
-// GET /api/transacoes -> todas as transações (do usuário + compartilhadas)
+// GET /api/transactions -> todas as transações (do usuário + compartilhadas)
 router.get('/', index);
 
 // GET /api/transacoes/resumo
